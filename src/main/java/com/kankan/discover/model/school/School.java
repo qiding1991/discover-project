@@ -3,6 +3,7 @@ package com.kankan.discover.model.school;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class School {
     private Integer schoolType;//学校类型 SchoolType
     private String name;//学校名称
     private String area;//地区
+    @GeoSpatialIndexed
     private List<Double> location;//经纬度
     private List<Integer> bizScope;//经营范围
     private Integer minLevel;//最低年级

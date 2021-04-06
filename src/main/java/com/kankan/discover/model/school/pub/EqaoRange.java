@@ -13,10 +13,11 @@ public class EqaoRange {
     private String id;
     @Indexed
     private String schoolId;
+
     private String year;
+
     @Data
     public  static  class  EqaoDetail{
-
         private Integer rank;
         private String reading;
         private String writing;
