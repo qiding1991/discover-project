@@ -73,7 +73,7 @@ public class EventController {
     @ApiOperation("近期活动")
     @GetMapping("recentEvent")
     public CommonResponse recentEvent(){
-
+      return CommonResponse.success();
     }
 
 

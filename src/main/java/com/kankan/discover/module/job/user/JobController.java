@@ -60,7 +60,7 @@ public class JobController {
     @ApiOperation("新发布工作")
     @GetMapping("recentJob")
     public CommonResponse recentJob(){
-
+      return CommonResponse.success();
     }
 
 }
