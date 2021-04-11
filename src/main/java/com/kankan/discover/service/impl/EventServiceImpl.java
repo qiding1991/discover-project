@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.kankan.discover.model.event.Event;
-import com.kankan.discover.model.event.UserEvent;
+
 import com.kankan.discover.service.EventService;
 
 
@@ -40,10 +41,12 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public UserEvent joinEvent(UserEvent userEvent) {
-
-    return null;
+  public void joinEvent(String eventId, Event.UserEvent userEvent) {
+    Query query = new Query(Criteria.where("eventId").is(eventId));
+    Update update = new Update().addToSet("userList", userEvent);
+    mongoTemplate.findAndModify(query, update, Event.class);
   }
+
 
   @Override
   public List<Event> findEvent(Integer startIndex, Integer pageSize) {

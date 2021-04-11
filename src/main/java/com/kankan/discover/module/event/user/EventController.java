@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.event.Event;
-import com.kankan.discover.model.event.UserEvent;
 import com.kankan.discover.module.event.param.JoinEventParam;
 import com.kankan.discover.service.EventService;
 
@@ -65,9 +64,8 @@ public class EventController {
     @ApiOperation("参加活动")
     @PostMapping("joinEvent")
     public CommonResponse joinEvent(@RequestBody JoinEventParam param) {
-        UserEvent userEvent = new UserEvent(param);
-        UserEvent joinResult = eventService.joinEvent(userEvent);
-        return CommonResponse.success(joinResult);
+        eventService.joinEvent(param.getEventId(),param.toUserEvent());
+        return CommonResponse.success();
     }
 
     @ApiOperation("近期活动")

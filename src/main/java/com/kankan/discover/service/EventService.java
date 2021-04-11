@@ -3,7 +3,6 @@ package com.kankan.discover.service;
 import java.util.List;
 
 import com.kankan.discover.model.event.Event;
-import com.kankan.discover.model.event.UserEvent;
 
 
 public interface EventService {
@@ -13,9 +12,9 @@ public interface EventService {
 
   List<Event> findEvent(Double longitude, Double latitude, String area, Integer timeOrder, Integer startIndex, Integer limit);
 
-  UserEvent joinEvent(UserEvent userEvent);
+  void joinEvent(String eventId, Event.UserEvent userEvent);
 
-  List<Event> findEvent(Integer  startIndex, Integer pageSize);
+  List<Event> findEvent(Integer startIndex, Integer pageSize);
 
   Long count();
 
