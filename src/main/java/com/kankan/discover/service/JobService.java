@@ -11,4 +11,10 @@ public interface JobService {
     Job findDetail(String jobId);
 
     Job publishJob(Job job);
+
+    void removeJob(String jobId);
+
+    List<Job> find(Integer startIndex, Integer pageSize);
+
+    Long count();
 }

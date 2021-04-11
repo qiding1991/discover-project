@@ -17,62 +17,83 @@ import com.kankan.discover.service.SchoolService;
 @Service
 public class PrivateSchoolService implements SchoolService<PrivateSchool> {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+  @Autowired
+  private MongoTemplate mongoTemplate;
 
 
-    @Override
-    public List<PrivateSchool> list(Integer startIndex, Integer limit) {
-        Query query = new Query().skip(startIndex).limit(limit);
-        return mongoTemplate.find(query, PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> list(Integer startIndex, Integer limit) {
+    Query query = new Query().skip(startIndex).limit(limit);
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> findNearBy(Double longitude, Double latitude) {
-        Point point = new Point(longitude, latitude);
-        Query query = new Query(Criteria.where("location").nearSphere(point));
-        return mongoTemplate.find(query,PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> findNearBy(Double longitude, Double latitude) {
+    Point point = new Point(longitude, latitude);
+    Query query = new Query(Criteria.where("location").nearSphere(point));
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> findByArea(String area) {
-        Query query=new Query(Criteria.where("area").is(area));
-        return mongoTemplate.find(query,PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> findByArea(String area) {
+    Query query = new Query(Criteria.where("area").is(area));
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> sortByDistance(Double longitude, Double latitude, Integer startIndex, Integer limit) {
-        Point point = new Point(longitude, latitude);
-        Query query = new Query(Criteria.where("location").nearSphere(point)).skip(startIndex).limit(limit);
-        return mongoTemplate.find(query,PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> sortByDistance(Double longitude, Double latitude, Integer startIndex, Integer limit) {
+    Point point = new Point(longitude, latitude);
+    Query query = new Query(Criteria.where("location").nearSphere(point)).skip(startIndex).limit(limit);
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> sortByFeiSha(Integer startIndex, Integer limit) {
-        throw new RuntimeException("不支持该操作");
-    }
+  @Override
+  public List<PrivateSchool> sortByFeiSha(Integer startIndex, Integer limit) {
+    throw new RuntimeException("不支持该操作");
+  }
 
-    @Override
-    public List<PrivateSchool> filter(Integer bizScope, String language, String proj, Integer startIndex, Integer limit) {
-       throw new RuntimeException("不支持该操作");
-    }
+  @Override
+  public List<PrivateSchool> filter(Integer bizScope, String language, String proj, Integer startIndex, Integer limit) {
+    throw new RuntimeException("不支持该操作");
+  }
 
-    @Override
-    public PrivateSchool detail(String id) {
-        Query query=new Query(Criteria.where("_id").is(id));
-        return mongoTemplate.findOne(query,PrivateSchool.class);
-    }
+  @Override
+  public PrivateSchool detail(String id) {
+    Query query = new Query(Criteria.where("_id").is(id));
+    return mongoTemplate.findOne(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> sortByHot(Integer startIndex, Integer limit) {
-        Query query = new Query().skip(startIndex).limit(limit);
-        return mongoTemplate.find(query,PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> sortByHot(Integer startIndex, Integer limit) {
+    Query query = new Query().skip(startIndex).limit(limit);
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
 
-    @Override
-    public List<PrivateSchool> filter(Integer bizScope, Integer startIndex, Integer limit) {
-        Query query=new Query(Criteria.where("bizScope").is(bizScope))
-                .skip(startIndex).limit(limit);//距离排序
-        return mongoTemplate.find(query,PrivateSchool.class);
-    }
+  @Override
+  public List<PrivateSchool> filter(Integer bizScope, Integer startIndex, Integer limit) {
+    Query query = new Query(Criteria.where("bizScope").is(bizScope))
+      .skip(startIndex).limit(limit);//距离排序
+    return mongoTemplate.find(query, PrivateSchool.class);
+  }
+
+  @Override
+  public void removeSchool(String schoolId) {
+    Query query = Query.query(Criteria.where("_id").is(schoolId));
+    mongoTemplate.remove(query, PrivateSchool.class);
+  }
+
+  @Override
+  public Long count() {
+    return mongoTemplate.count(new Query(),PrivateSchool.class);
+  }
+
+  @Override
+  public School addNewSchool(School school) {
+    return  mongoTemplate.insert(school);
+  }
+
+  @Override
+  public void saveSchool(School school) {
+     mongoTemplate.save(school);
+  }
 }

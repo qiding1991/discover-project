@@ -19,37 +19,56 @@ import com.kankan.discover.service.JobService;
 
 @Service
 public class JobServiceImpl implements JobService {
-    @Autowired
-    private MongoTemplate mongoTemplate;
+  @Autowired
+  private MongoTemplate mongoTemplate;
 
-    @Override
-    public List<Job> find(Double longitude, Double latitude, String area, Integer timeOrder, Integer startIndex, Integer limit) {
-        Query query = new Query().skip(startIndex).limit(limit);
-        if (ObjectUtils.anyNotNull(longitude, latitude)) {
-            Point point = new Point(longitude, latitude);
-            query.addCriteria(Criteria.where("location").nearSphere(point));
-        } else if (StringUtils.isNotEmpty(area)) {
-            query.addCriteria(Criteria.where("area").is(area));
-        }
-
-        Direction direction = Direction.DESC;
-        if (timeOrder == 1) {
-            direction = Direction.ASC;
-        }
-        query.with(Sort.by(direction, "publishTime"));
-        List<Job> jobList = mongoTemplate.find(query, Job.class);
-        return jobList;
+  @Override
+  public List<Job> find(Double longitude, Double latitude, String area, Integer timeOrder, Integer startIndex, Integer limit) {
+    Query query = new Query().skip(startIndex).limit(limit);
+    if (ObjectUtils.anyNotNull(longitude, latitude)) {
+      Point point = new Point(longitude, latitude);
+      query.addCriteria(Criteria.where("location").nearSphere(point));
+    } else if (StringUtils.isNotEmpty(area)) {
+      query.addCriteria(Criteria.where("area").is(area));
     }
 
-    @Override
-    public Job findDetail(String jobId) {
-        Query query = new Query().addCriteria(Criteria.where("_id").is(jobId));
-        return mongoTemplate.findOne(query, Job.class);
+    Direction direction = Direction.DESC;
+    if (timeOrder == 1) {
+      direction = Direction.ASC;
     }
+    query.with(Sort.by(direction, "publishTime"));
+    List<Job> jobList = mongoTemplate.find(query, Job.class);
+    return jobList;
+  }
 
-    @Override
-    public Job publishJob(Job job) {
-        Job result = mongoTemplate.save(job);
-        return result;
-    }
+  @Override
+  public Job findDetail(String jobId) {
+    Query query = new Query().addCriteria(Criteria.where("_id").is(jobId));
+    return mongoTemplate.findOne(query, Job.class);
+  }
+
+  @Override
+  public Job publishJob(Job job) {
+    Job result = mongoTemplate.save(job);
+    return result;
+  }
+
+  @Override
+  public void removeJob(String jobId) {
+    Query query = new Query().addCriteria(Criteria.where("_id").is(jobId));
+    mongoTemplate.remove(query, Job.class);
+  }
+
+  @Override
+  public List<Job> find(Integer startIndex, Integer pageSize) {
+    Query query = new Query();
+    query.skip(startIndex).limit(pageSize);
+    List<Job> jobList = mongoTemplate.find(query, Job.class);
+    return jobList;
+  }
+
+  @Override
+  public Long count() {
+    return mongoTemplate.count(new Query(), Job.class);
+  }
 }

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: discover-project
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/discover
+
+
+server:
+  port: 8085
