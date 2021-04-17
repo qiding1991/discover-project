@@ -26,17 +26,19 @@ public class JobServiceImpl implements JobService {
   private MongoTemplate mongoTemplate;
 
   @Override
-  public List<Job> find(Double longitude, Double latitude, Double maxDistance, String area, Integer timeOrder, Integer startIndex, Integer limit) {
+  public List<Job> find(Double longitude, Double latitude, Double maxDistance, String area,String searchKey, Integer timeOrder, Integer startIndex, Integer limit) {
     Query query = new Query().skip(startIndex).limit(limit);
     if (ObjectUtils.anyNotNull(longitude, latitude)) {
       Point point = new Point(longitude, latitude);
       query.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(maxDistance));
     } else if (StringUtils.isNotEmpty(area)) {
       query.addCriteria(Criteria.where("area").is(area));
+    }else if(StringUtils.isNotBlank(searchKey)){
+      query.addCriteria(Criteria.where("remark").regex(searchKey));
     }
 
-    Direction direction = Direction.DESC;
 
+    Direction direction = Direction.DESC;
     if (timeOrder == 1) {
       direction = Direction.ASC;
     }

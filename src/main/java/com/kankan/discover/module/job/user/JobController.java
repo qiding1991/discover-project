@@ -28,12 +28,13 @@ public class JobController {
   public CommonResponse list(
     @RequestParam(value = "x", required = false) Double longitude,
     @RequestParam(value = "y", required = false) Double latitude,
+    @RequestParam(value = "searchKey",required = false) String searchKey,
     @RequestParam(value = "distance", required = false, defaultValue = "100") Double maxDistance,
     @RequestParam(value = "area", required = false) String area,
     @RequestParam(value = "timeOrder", required = false, defaultValue = "1") Integer timeOrder,
     @RequestParam(value = "startIndex", defaultValue = "0", required = false) Integer startIndex,
     @RequestParam(value = "limit", defaultValue = "30", required = false) Integer limit) {
-    List<Job> jobList = jobService.find(longitude, latitude, maxDistance, area, timeOrder, startIndex, limit);
+    List<Job> jobList = jobService.find(longitude, latitude, maxDistance, area, searchKey, timeOrder, startIndex, limit);
     return CommonResponse.success(jobList);
   }
 
