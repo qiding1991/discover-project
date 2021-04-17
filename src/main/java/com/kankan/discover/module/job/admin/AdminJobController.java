@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +22,12 @@ public class AdminJobController {
 
   @ApiOperation("工作列表")
   @GetMapping("list")
-  public CommonResponse listJob(@RequestParam(value = "pageNumer", required = false, defaultValue = "1") Integer pageNumer,
-                                @RequestParam(value = "limit", required = false, defaultValue = "20") Integer pageSize) {
+  public CommonResponse listJob(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumer,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
 
     List<Job> jobList = jobService.find((pageNumer - 1) * pageSize, pageSize);
     Long totalCount = jobService.count();
-    Integer totalPage = totalCount / pageSize + totalCount % pageSize == 0 ? 0 : 1;
+    Long totalPage = totalCount / pageSize + (totalCount % pageSize == 0 ? 0L : 1L);
     Map<String, Object> jobMap = ImmutableMap.of("infoList", jobList, "totalCount", totalCount, "totalPage", totalPage);
     return CommonResponse.success(jobMap);
 
