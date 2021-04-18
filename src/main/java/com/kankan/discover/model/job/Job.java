@@ -36,6 +36,7 @@ public class Job {
   private String phone;
   private String wx;
   private String remark;
+  private Integer payType;
 
   @Data
   @AllArgsConstructor

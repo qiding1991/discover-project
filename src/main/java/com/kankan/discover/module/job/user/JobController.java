@@ -38,7 +38,7 @@ public class JobController {
     return CommonResponse.success(jobList);
   }
 
-  @ApiOperation("发布工作")
+  @ApiOperation("发布工作 payType: 1时薪 2年薪 3面谈")
   @PostMapping("publish")
   public CommonResponse publish(@RequestBody PublishJobParam publishJobParam) {
     Job job = new Job(publishJobParam);

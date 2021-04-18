@@ -48,7 +48,7 @@ public class AdminEventController {
     return CommonResponse.success();
   }
 
-  @ApiOperation("")
+
 
 
 }

@@ -7,6 +7,7 @@ import org.springframework.data.geo.Point;
 public class PublishJobParam {
   private String userId;
   private String title;
+  private Integer payType;
   private String price;
   private String area;
   private Point location;
