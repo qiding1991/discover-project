@@ -3,6 +3,8 @@ package com.kankan.discover.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,7 +27,9 @@ public class EventTypeServiceImpl implements EventTypeService {
 
     @Override
     public List<EventType> eventList() {
-        return mongoTemplate.findAll(EventType.class);
+        Query query =new Query();
+        query.with(Sort.by(Direction.DESC,"eventOrder"));
+        return mongoTemplate.find(query,EventType.class);
     }
 
     @Override
