@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.event.Event;
+import com.kankan.discover.model.event.EventType;
 import com.kankan.discover.module.event.param.JoinEventParam;
 import com.kankan.discover.module.job.param.ApplyOrFavouriteJobParam;
 import com.kankan.discover.service.EventService;
+import com.kankan.discover.service.EventTypeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.asm.Advice.Unused;
 
 
 @Api(tags = "活动入口")
@@ -28,6 +31,9 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private EventTypeService eventTypeService;
 
 
     @ApiOperation("活动列表")
@@ -99,7 +105,11 @@ public class EventController {
         List<Event> eventList = eventService.recentEvent(startIndex, limit);
         return CommonResponse.success(eventList);
     }
-
-    
+    @ApiOperation("分类列表(分类比较少，不分页)")
+    @GetMapping("list")
+    public CommonResponse list() {
+        List<EventType> eventTypeList = eventTypeService.eventList();
+        return CommonResponse.success(eventTypeList);
+    }
 
 }

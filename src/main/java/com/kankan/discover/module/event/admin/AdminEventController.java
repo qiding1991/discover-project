@@ -25,9 +25,8 @@ public class AdminEventController {
 
     @Autowired
     private EventService eventService;
-    @Autowired
-    private EventTypeService eventTypeService;
-    
+
+
     @ApiOperation("活动列表")
     @GetMapping("list")
     public CommonResponse listEvent(
@@ -65,11 +64,5 @@ public class AdminEventController {
         return CommonResponse.success(result);
     }
 
-    @ApiOperation("分类列表(分类比较少，不分页)")
-    @GetMapping("list")
-    public CommonResponse list() {
-        List<EventType> eventTypeList = eventTypeService.eventList();
-        return CommonResponse.success(eventTypeList);
-    }
 
 }
