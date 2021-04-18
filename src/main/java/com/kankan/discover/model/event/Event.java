@@ -3,20 +3,24 @@ package com.kankan.discover.model.event;
 import java.time.Instant;
 import java.util.List;
 
-import com.kankan.discover.module.event.param.JoinEventParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
-
-import lombok.Data;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.kankan.discover.module.event.param.CreateEventParam;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Document
 @Data
 public class Event {
   @Id
-  private String id;
+  private String eventId;
   private String picture;//活动图片
   private String title;//活动主题
   private Double price;//价格
@@ -29,8 +33,18 @@ public class Event {
   private String eventDate;//活动日期
   private Boolean isOnline;//线上还是线下
   private String eventTypeId;//活动类型id
-  private List<UserEvent> userList;
 
+  private List<UserEvent> user;
+  private List<UserEvent> favourite;//收藏
+
+
+
+  public Event(CreateEventParam param) {
+    BeanUtils.copyProperties(param,this);
+  }
+
+  @AllArgsConstructor
+  @NoArgsConstructor
   @Data
   public static class UserEvent {
     private String userId;

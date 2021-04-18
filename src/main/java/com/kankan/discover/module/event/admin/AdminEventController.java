@@ -3,9 +3,14 @@ package com.kankan.discover.module.event.admin;
 import com.google.common.collect.ImmutableMap;
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.event.Event;
+import com.kankan.discover.model.event.EventType;
+import com.kankan.discover.module.event.param.CreateEventParam;
+import com.kankan.discover.module.event.param.CreateEventTypeParam;
 import com.kankan.discover.service.EventService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,38 +22,43 @@ import java.util.Map;
 @RequestMapping("admin/event")
 public class AdminEventController {
 
-  @Autowired
-  private EventService eventService;
+    @Autowired
+    private EventService eventService;
 
-  @ApiOperation("活动列表")
-  @GetMapping("list")
-  public CommonResponse listEvent(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber,
-                                  @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
+    @ApiOperation("活动列表")
+    @GetMapping("list")
+    public CommonResponse listEvent(
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
 
-    List<Event> eventList = eventService.findEvent((pageNumber - 1) * pageSize, pageSize);
-    Long totalCount = eventService.count();
-    Integer totalPage = totalCount / pageSize + totalCount % pageSize == 0 ? 0 : 1;
-    Map<String, Object> resultMap = ImmutableMap.of("infoList", eventList, "totalCount", totalCount, "totalPage", totalPage);
-    return CommonResponse.success(resultMap);
+        List<Event> eventList = eventService.findEvent((pageNumber - 1) * pageSize, pageSize);
+        Long totalCount = eventService.count();
+        Integer totalPage = totalCount / pageSize + totalCount % pageSize == 0 ? 0 : 1;
+        Map<String, Object> resultMap = ImmutableMap.of("infoList", eventList, "totalCount", totalCount, "totalPage", totalPage);
+        return CommonResponse.success(resultMap);
 
-  }
+    }
 
-  @ApiOperation("活动详情")
-  @GetMapping("detail/{eventId}")
-  public CommonResponse detailEvent(@PathVariable(value = "eventId") String eventId) {
-    Event event = eventService.findEvent(eventId);
-    return CommonResponse.success(event);
-  }
-
-
-  @ApiOperation("删除活动")
-  @PostMapping("delete/{eventId}")
-  public CommonResponse delEvent(@PathVariable(value = "eventId") String eventId) {
-    eventService.remove(eventId);
-    return CommonResponse.success();
-  }
+    @ApiOperation("活动详情")
+    @GetMapping("detail/{eventId}")
+    public CommonResponse detailEvent(@PathVariable(value = "eventId") String eventId) {
+        Event event = eventService.findEvent(eventId);
+        return CommonResponse.success(event);
+    }
 
 
+    @ApiOperation("删除活动")
+    @PostMapping("delete/{eventId}")
+    public CommonResponse delEvent(@PathVariable(value = "eventId") String eventId) {
+        eventService.remove(eventId);
+        return CommonResponse.success();
+    }
 
-
+    @ApiOperation("发布活动或者更新服务")
+    @PostMapping("createOrUpdate")
+    public CommonResponse createOrUpdate(@RequestBody CreateEventParam param) {
+        Event event = new Event(param);
+        Event result = eventService.save(event);
+        return CommonResponse.success(result);
+    }
 }
