@@ -7,7 +7,7 @@ import com.kankan.discover.module.job.param.ApplyOrFavouriteJobParam;
 
 
 public interface JobService {
-  List<Job> find(Double longitude, Double latitude, Double maxDistance, String area, String searchKey,Integer timeOrder, Integer startIndex, Integer limit);
+  List<Job> find(Double longitude, Double latitude, Double maxDistance, String area, String searchKey,Integer searchType,  Integer timeOrder, Integer startIndex, Integer limit);
 
   Job findDetail(String jobId);
 

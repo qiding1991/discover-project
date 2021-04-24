@@ -3,15 +3,10 @@ package com.kankan.discover.module.event.admin;
 import com.google.common.collect.ImmutableMap;
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.event.Event;
-import com.kankan.discover.model.event.EventType;
 import com.kankan.discover.module.event.param.CreateEventParam;
-import com.kankan.discover.module.event.param.CreateEventTypeParam;
 import com.kankan.discover.service.EventService;
-import com.kankan.discover.service.EventTypeService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

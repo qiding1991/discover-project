@@ -1,6 +1,7 @@
 package com.kankan.discover.service.impl;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.kankan.discover.module.job.param.ApplyOrFavouriteJobParam;
@@ -25,19 +26,41 @@ public class JobServiceImpl implements JobService {
   @Autowired
   private MongoTemplate mongoTemplate;
 
+  /**
+   * @param longitude
+   * @param latitude
+   * @param maxDistance
+   * @param area
+   * @param searchKey
+   * @param searchType  "工作列表,searchType 1 全部时间 2 最近24小时 3 最近一周 4最近一个月"
+   * @param timeOrder
+   * @param startIndex
+   * @param limit
+   * @return
+   */
   @Override
-  public List<Job> find(Double longitude, Double latitude, Double maxDistance, String area,String searchKey, Integer timeOrder, Integer startIndex, Integer limit) {
+  public List<Job> find(Double longitude, Double latitude, Double maxDistance, String area,
+                        String searchKey, Integer searchType, Integer timeOrder, Integer startIndex, Integer limit) {
     Query query = new Query().skip(startIndex).limit(limit);
     if (ObjectUtils.anyNotNull(longitude, latitude)) {
       Point point = new Point(longitude, latitude);
       query.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(maxDistance));
     } else if (StringUtils.isNotEmpty(area)) {
       query.addCriteria(Criteria.where("area").is(area));
-    }else if(StringUtils.isNotBlank(searchKey)){
+    } else if (StringUtils.isNotBlank(searchKey)) {
       query.addCriteria(Criteria.where("remark").regex(searchKey));
     }
 
-
+    Long publishTime = 0L;
+    if (searchType == 2) {
+      publishTime = Instant.now().plus(-1, ChronoUnit.DAYS).toEpochMilli();
+    } else if (searchType == 3) {
+      publishTime = Instant.now().plus(-7, ChronoUnit.DAYS).toEpochMilli();
+    } else if (searchType == 4) {
+      publishTime = Instant.now().plus(-7, ChronoUnit.DAYS).toEpochMilli();
+    }
+    //指定时间
+    query.addCriteria(Criteria.where("publishTime").gte(publishTime));
     Direction direction = Direction.DESC;
     if (timeOrder == 1) {
       direction = Direction.ASC;
@@ -56,7 +79,7 @@ public class JobServiceImpl implements JobService {
   }
 
   @Override
-  public List<Job> findRecent(Integer startIndex,Integer limit) {
+  public List<Job> findRecent(Integer startIndex, Integer limit) {
     Query query = new Query().with(Sort.by(Direction.DESC, "publishTime")).skip(startIndex).limit(limit);
     return mongoTemplate.find(query, Job.class);
   }
