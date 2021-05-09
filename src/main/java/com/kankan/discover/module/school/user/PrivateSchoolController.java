@@ -2,10 +2,7 @@ package com.kankan.discover.module.school.user;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.school.School;
@@ -15,7 +12,7 @@ import com.kankan.discover.service.impl.PrivateSchoolService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
+@CrossOrigin(origins = "*")
 @Api(tags = "私立学校接口")
 @RestController
 @RequestMapping("school/private/user")

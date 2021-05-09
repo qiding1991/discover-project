@@ -3,12 +3,7 @@ package com.kankan.discover.module.event.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.model.event.EventType;
@@ -18,7 +13,7 @@ import com.kankan.discover.service.EventTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
+@CrossOrigin(origins = "*")
 @Api(tags = "管理后台-活动类型管理")
 @RestController
 @RequestMapping("admin/eventType")

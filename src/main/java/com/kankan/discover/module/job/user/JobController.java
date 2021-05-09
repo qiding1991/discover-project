@@ -14,7 +14,7 @@ import com.kankan.discover.service.JobService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
+@CrossOrigin(origins = "*")
 @Api(tags = "工作接口")
 @RestController
 @RequestMapping("job/user")

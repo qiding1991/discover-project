@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "*")
 @Api(tags = "管理后台-学校管理")
 @RestController
 @RequestMapping("admin/school/{schoolType}")

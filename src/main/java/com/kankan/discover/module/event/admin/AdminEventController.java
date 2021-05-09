@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "*")
 @Api(tags = "管理后台-活动管理")
 @RestController
 @RequestMapping("admin/event")
