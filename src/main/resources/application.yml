@@ -6,6 +6,9 @@ spring:
       uri: mongodb://127.0.0.1:27017/discover
       auto-index-creation: true
 
-
+meetup:
+   client_id: i404ih00qvk1n7sk9or61nv4q0
+   client_secret: v9qlc7gtrgvc9ebrpgbbi9gria
+   redirect_uri: http://47.94.33.237:8085/getCode
 server:
   port: 8085
