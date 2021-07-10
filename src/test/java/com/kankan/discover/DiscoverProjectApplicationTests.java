@@ -21,7 +21,7 @@ class DiscoverProjectApplicationTests {
 
   @Test
   public void getCode() {
-    ResponseEntity<String> result = meetUpService.authorize("i404ih00qvk1n7sk9or61nv4q0", "code","code");
+    String result = meetUpService.authorize("i404ih00qvk1n7sk9or61nv4q0", "code","");
     log.info("result={}", result);
   }
 
