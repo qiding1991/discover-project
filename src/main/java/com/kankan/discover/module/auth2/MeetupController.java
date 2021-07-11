@@ -4,9 +4,9 @@ import com.kankan.discover.common.CommonResponse;
 import com.kankan.discover.config.MeetupConfig;
 import com.kankan.discover.service.MeetUpService;
 import com.kankan.discover.service.MeetUpService.AccessToken;
+import java.net.URLEncoder;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class MeetupController {
 
   @GetMapping("getAccessToken")
   public CommonResponse getAccessToken() throws InterruptedException {
-    String result = meetUpService.authorize(meetupConfig.getClientId(), meetupConfig.getClientSecret(), meetupConfig.getRedirectUri());
+    String result = meetUpService.authorize(meetupConfig.getClientId(), meetupConfig.getClientSecret(), URLEncoder.encode(meetupConfig.getRedirectUri()));
     log.info("getAccessToken result={}", result);
     String accessToken = blockingQueue.take();
     return CommonResponse.success(accessToken);
