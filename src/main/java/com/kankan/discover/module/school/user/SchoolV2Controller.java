@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @Api(tags = "导入学校数据接口")
 @RestController
-@RequestMapping("school/public/user")
+@RequestMapping("school/v2/user")
 public class SchoolV2Controller {
 
   @Autowired
