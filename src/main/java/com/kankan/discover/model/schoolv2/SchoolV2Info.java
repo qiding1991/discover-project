@@ -61,7 +61,7 @@ public class SchoolV2Info {
   private Integer gradeFrom;
   private Integer gradeEnd;
   private Integer isElementary;
-  private Integer isIsMiddle;
+  private Integer isMiddle;
   private Integer isHigh;
   private Integer isFrenchImmersion;
   private Integer isAP;
