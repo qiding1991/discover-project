@@ -107,7 +107,9 @@ public class AdminSchoolV2Controller {
     Map<String, String> schoolMap = new HashMap<>();
     Gson gson = new Gson();
     for (int i = 0; i < header.size(); i++) {
-      schoolMap.put(header.get(i), contents.get(i));
+      if (i < contents.size()) {
+        schoolMap.put(header.get(i), contents.get(i));
+      }
     }
     SchoolV2Info schoolV2Info = gson.fromJson(gson.toJson(schoolMap), SchoolV2Info.class);
     schoolV2Info.setLocation(new Point(Double.valueOf(schoolMap.get("geoLat")), Double.valueOf(schoolMap.get("geoLng"))));
