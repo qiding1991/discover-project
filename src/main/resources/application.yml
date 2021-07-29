@@ -5,6 +5,10 @@ spring:
     mongodb:
       uri: mongodb://127.0.0.1:27017/discover
       auto-index-creation: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 meetup:
    client_id: i404ih00qvk1n7sk9or61nv4q0
